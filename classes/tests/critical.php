@@ -30,6 +30,7 @@ class critical {
 		'deprecatedFunctions',
 		'newOperatorWithReference',
 		'oldClassConstructors',
+		'pregEval',
 	];
 
 	/**
@@ -155,6 +156,21 @@ class critical {
 			}
 		}
 
+		return false;
+	}
+	
+	/**
+	 * Find cases of "preg_replace" with "eval" modifier.
+	 *
+	 * @access	public
+	 * @param	string	Line to test against.
+	 * @return	boolean	Line matches test.
+	 */
+	public function _pregEval($line) {
+		$regex = "#preg_replace\(.*\/[a-z]*e\)#i";
+		if (preg_match($regex, $line)) {
+			return true;
+		}
 		return false;
 	}
 }
