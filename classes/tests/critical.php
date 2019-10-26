@@ -167,7 +167,7 @@ class critical {
 	 * @return	boolean	Line matches test.
 	 */
 	public function _pregEval($line) {
-		$regex = "#preg_replace\(.*\/[a-z]*e\)#i";
+		$regex = "#preg_replace\(.*\/[a-z]*e\'*\"*#i";
 		if (preg_match($regex, $line)) {
 			return true;
 		}
