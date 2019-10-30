@@ -31,6 +31,7 @@ class critical {
 		'newOperatorWithReference',
 		'oldClassConstructors',
 		'pregEval',
+		'invalidList',
 	];
 
 	/**
@@ -168,6 +169,21 @@ class critical {
 	 */
 	public function _pregEval($line) {
 		$regex = "#(\'|\")\/.+\/[imsxADSUXJu]*e[imsxADSUXJu]*(\'|\")#";
+		if (preg_match($regex, $line)) {
+			return true;
+		}
+		return false;
+	}
+
+	/**
+	 * Find invalid cases of "list", such as empty list assignment, string unpacking and potentially wrong order of assignment
+	 *
+	 * @access	public
+	 * @param	string	Line to test against.
+	 * @return	boolean	Line matches test.
+	 */
+	public function _invalidList($line) {
+		$regex = "#(\s|^)list\((\\$*[a-zA-Z0-9]+\[\],|,*\)|.*\)\s*=\s*(\'|\").*(\'|\"))#";
 		if (preg_match($regex, $line)) {
 			return true;
 		}
